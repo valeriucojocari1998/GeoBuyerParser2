@@ -18,4 +18,10 @@
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="OsmSharp" Version="6.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Countries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Countries\" />
+  </ItemGroup>
 </Project>
