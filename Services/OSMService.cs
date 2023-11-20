@@ -64,6 +64,7 @@ public class OSMService
 
             // Extract and convert the elements into Location objects
             var locationData = response.elements.Select(x => Location.FromOsmElement(x, country)).ToList();
+            var validLocations = locationData.Where(x => x.Valid()).ToList();
 
             return locationData;
         }

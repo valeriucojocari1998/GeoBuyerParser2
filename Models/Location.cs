@@ -60,6 +60,30 @@ public record Location(
     string? category = null)
 
 {
+    public bool Valid()
+    {
+        if (object_id == null) 
+        {
+            return false;
+        }
+        if (latitude == null)
+        {
+            return false;
+        }
+        if(longitude == null)
+        {
+            return false;
+        }
+        if(name == null || name == "")
+        {
+            return false;
+        }
+        if (category == null)
+        {
+            return false;
+        }
+        return true;
+    }
     public static Location FromOsmElement(OsmElement osmElement, string country)
     {
         Location location = new Location(
@@ -138,6 +162,7 @@ public record Location(
             "toilets" => location with { toilets = value == "yes" },
             "toilets:wheelchair" => location with { toilets_wheelchair = value == "yes" },
             "wheelchair" => location with { wheelchair = value },
+            "shop" => location with { category = value != "yes" || value != "no" ? value : (location.category ?? null) },
             "amenity" => location with { category = value },
 
             _ => location

@@ -1,0 +1,8 @@
+# Use a Windows Server Core-based image
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+# Create a directory for the database
+WORKDIR C:\\app
+
+# Copy the database file into the container
+COPY app.db ./
