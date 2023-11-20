@@ -1,10 +1,8 @@
 ﻿#nullable enable
-using System.Text;
 using GeoBuyerParser2.Countries;
 using GeoBuyerParser2.Models;
 using GeoBuyerParser2.Repositories;
 using Newtonsoft.Json;
-using OsmSharp.Streams;
 
 namespace GeoBuyerParser2.Services;
 
@@ -17,7 +15,7 @@ public class OSMService
         _repository = repository;
     }
 
-    public async Task<List<Location>> GetData(string country)
+    public async Task<List<Location>> ParseData(string country)
     {
         var query = Country.Config.TryGetValue(country, out var info) ? info : null;
         if (query == null)
@@ -25,10 +23,15 @@ public class OSMService
             throw new Exception("wrong country name");
         }
             var json = await GetDataFromOverpass(query);
-            var parsedData = ParseJsonData(json);
+            var parsedData = ParseJsonData(json, country);
             _repository.InsertLocations(parsedData);
             var data = _repository.GetLocations();
             return parsedData;
+    }
+
+    public List<Location> GetData()
+    {
+        return _repository.GetLocations().ToList();
     }
 
     private async Task<string> GetDataFromOverpass(string query)
@@ -53,14 +56,14 @@ public class OSMService
         }
     }
 
-    private List<Location> ParseJsonData(string jsonData)
+    private List<Location> ParseJsonData(string jsonData, string country)
     {
         try
         {
             var response = JsonConvert.DeserializeObject<OsmResponse>(jsonData);
 
             // Extract and convert the elements into Location objects
-            var locationData = response.elements.Select(element => Location.FromOsmElement(element)).ToList();
+            var locationData = response.elements.Select(x => Location.FromOsmElement(x, country)).ToList();
 
             return locationData;
         }

@@ -15,10 +15,17 @@ public class ApiController : ControllerBase
         _osmService = oSMService;
     }
 
-    [HttpGet("api/GetLocationSlovakia")]
-    public async Task<IActionResult> Get()
+    [HttpGet("api/ParseLocations/{CountryCode}")]
+    public async Task<IActionResult> Parse([FromRoute] string CountryCode)
     {
-        var data = await _osmService.GetData();
+        var data = await _osmService.ParseData(CountryCode);
+        return Ok(data);
+    }
+
+    [HttpGet("api/GetLocationsFromDB")]
+    public IActionResult Get()
+    {
+        var data = _osmService.GetData();
         return Ok(data);
     }
 }
