@@ -3,10 +3,20 @@
     "GeoBuyerParser2": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:57055;http://localhost:57056",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:57055;http://localhost:57056"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }

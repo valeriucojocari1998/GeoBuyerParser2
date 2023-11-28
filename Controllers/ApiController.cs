@@ -18,8 +18,9 @@ public class ApiController : ControllerBase
     [HttpGet("api/ParseLocations/{CountryCode}")]
     public async Task<IActionResult> Parse([FromRoute] string CountryCode)
     {
+        Console.WriteLine(CountryCode + " Started");
         var data = await _osmService.ParseData(CountryCode);
-        return Ok(data);
+        return Ok(data.Count);
     }
 
     [HttpGet("api/GetLocationsFromDB")]
